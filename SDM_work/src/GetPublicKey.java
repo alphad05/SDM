@@ -40,10 +40,12 @@ public class GetPublicKey extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userid = request.getParameter("userid");
+		System.out.println(userid);
 		//Random r = new Random();
 		//int val = r.nextInt(50000);
+		String servpath = getServletContext().getRealPath("/WEB-INF/files/");
 		String policy = "patient_write or hospital_write or healthclub_write"; //can write policy
-		File writeFile = new File("writefile_norm.txt"); //file to encrypt with write policies
+		File writeFile = new File(servpath+"/writefile_norm.txt"); //file to encrypt with write policies
 		if(!writeFile.exists()) {
 			//file doesn't exist so create it and write to it
 			writeFile.createNewFile();
@@ -52,8 +54,9 @@ public class GetPublicKey extends HttpServlet {
 			bw.write("this is a test");
 			bw.close();
 		}
-		String servpath = getServletContext().getRealPath("/WEB-INF/files/");
+		//String servpath = getServletContext().getRealPath("/WEB-INF/files/");
 		System.out.println(servpath);
+		String randname = "writefile_dec.txt";
 		File decFile = new File(servpath+"/writefile_dec.txt"); //encrypted file
 		//Cpabe enc = new Cpabe();
 		File pubkey = new File(servpath+"/pk.pkey"); //public key file
@@ -63,9 +66,10 @@ public class GetPublicKey extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		String decFilePath = decFile.getAbsolutePath();
+		String decFilePath = servpath+"/writefile_dec.txt";//decFile.getAbsolutePath();
 		System.out.println(decFilePath);
-		request.setAttribute("pathname", decFilePath);
+		request.setAttribute("pathname", servpath);
+		request.setAttribute("filename", randname);
 		//Send path to user and they have to decrypt the file and send back contents of file
 		request.getRequestDispatcher("/Checkuseratts").forward(request,response);
 		//request.getRequestDispatcher("/dictgloss/DictGlossGame.jsp").forward(request,response);
