@@ -8,11 +8,17 @@
 </head>
 <body>
 	<%
+		//checks to see if the users have the attributes required for writing files and if they do
+		//they upload file and files gets uploaded in the uploadFile servlet
 		String ans = (String) request.getAttribute("answer"); 
 		String corAns = "this is a test";
 		if(ans.equals(corAns)) {
 	%>
 			Upload file now.
+			<form method="post" action="/SDM_work/UploadFile" enctype="multipart/form-data">
+				<input type="file" name="file"/>
+				<input type="submit"/>
+			</form>
 	<%
 		}else {
 	%>

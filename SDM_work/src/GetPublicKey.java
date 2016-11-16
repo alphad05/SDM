@@ -17,6 +17,13 @@ import cpabe.Cpabe;
  * Servlet implementation class GetPublicKey
  */
 @WebServlet("/GetPublicKey")
+/*
+ * This servlet will use the public key and encrypt a file that will serve
+ * as a challenge to the user. The user will need to decrypt the file and
+ * send back the contents, which will be checked in the checkuseratts servlet
+ * and the checkAnswer.jsp page. This is inorder to check if the user has write
+ * permissions and if they do they can upload files.
+ */
 public class GetPublicKey extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

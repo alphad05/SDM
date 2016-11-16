@@ -12,6 +12,7 @@
 	<%
 		//get the userid and filepath and print it on screen
 		ArrayList<String[]> fis = (ArrayList<String[]>)request.getAttribute("fileLocs");
+		System.out.println(fis.size());
 		if (fis.size()==0) {
 	%>
 		<p>No Files To View</p>

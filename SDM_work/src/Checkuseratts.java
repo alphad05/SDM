@@ -17,6 +17,10 @@ import cpabe.Cpabe;
  * Servlet implementation class Checkuseratts
  */
 @WebServlet("/Checkuseratts")
+/*
+ * This was a test servlet mimicking user decrypting the encrypted file
+ * created in the GetPublicKey servlet.
+ */
 public class Checkuseratts extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

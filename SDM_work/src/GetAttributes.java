@@ -19,6 +19,10 @@ import java.util.ArrayList;
  * Servlet implementation class GetAttributes
  */
 @WebServlet("/GetAttributes")
+/*
+ * This servlet is for getting user attributes and displaying potential files
+ * that the user may be able to decrypt.
+ */
 public class GetAttributes extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -34,13 +38,31 @@ public class GetAttributes extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String atts = request.getParameter("atts"); //pass the atts attributes to this page
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String atts = (String)request.getAttribute("atts"); //pass the atts attributes to this page
+		//assumming that attributes are sent "att1, att2, aat3,..., attn"
+		String[] attString = atts.split(",");
+		String sqlString = "";
+		//create statement ex: "secpolicy like 'att1' or secpolicy like 'att2' or ... or secpolicy like 'attn'" 
+		for(int i=0; i< attString.length-1; i++){
+			String likeState = "secpolicy like '"+attString[i].trim()+"' or ";
+			sqlString = sqlString + likeState;
+		}
+		sqlString = sqlString + "secpolicy like '"+attString[attString.length-1].trim()+"'";
+		System.out.println(sqlString);
+		
 		//connect to database and search for matching policy
 		Connection con = null;
         Statement st = null;
         ResultSet rs = null;
 
-        String url = "jdbc:mysql://localhost:3306/CloudDatabase"; //database
+        String url = "jdbc:mysql://192.168.239.128:3306/CloudDatabase"; //database
         String user = ""; //username
         String password = ""; //password
         
@@ -49,7 +71,9 @@ public class GetAttributes extends HttpServlet {
             con = DriverManager.getConnection(url, user, password);
             System.out.println("Database connected");
             st = con.createStatement();
-            rs = st.executeQuery("SELECT VERSION()"); //query: Select userid, filename from healthFiles where secpolicy like 'atts';
+    
+            //refine search query
+            rs = st.executeQuery("SELECT userid, filename from healthFiles where "+sqlString);
             ArrayList<String[]> fi = new ArrayList<String[]>(); //stores the userid and file name
             while (rs.next()) {
                 String[] uidFile = new String[2];
@@ -64,13 +88,6 @@ public class GetAttributes extends HttpServlet {
         } catch (SQLException ex) {
         	System.out.println(ex);
         }
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 
 }
