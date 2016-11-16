@@ -33,7 +33,7 @@ public class TestGetAttributes extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String atts = "att1, att2, aat3, att4";
+		String atts = "att1, att2, att3, att4";
 		request.setAttribute("atts", atts);
 		request.getRequestDispatcher("/GetAttributes").forward(request, response);
 	}

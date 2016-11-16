@@ -51,10 +51,10 @@ public class GetAttributes extends HttpServlet {
 		String sqlString = "";
 		//create statement ex: "secpolicy like 'att1' or secpolicy like 'att2' or ... or secpolicy like 'attn'" 
 		for(int i=0; i< attString.length-1; i++){
-			String likeState = "secpolicy like '"+attString[i].trim()+"' or ";
+			String likeState = "secpolicy like '%"+attString[i].trim()+"%' or ";
 			sqlString = sqlString + likeState;
 		}
-		sqlString = sqlString + "secpolicy like '"+attString[attString.length-1].trim()+"'";
+		sqlString = sqlString + "secpolicy like '%"+attString[attString.length-1].trim()+"%'";
 		System.out.println(sqlString);
 		
 		//connect to database and search for matching policy
