@@ -14,8 +14,8 @@ public class TestSQL {
         ResultSet rs = null;
 
         String url = "jdbc:mysql://192.168.239.128:3306/schoolmate"; //database
-        String user = "root"; //username
-        String password = "Ou1smane"; //password
+        String user = ""; //username
+        String password = ""; //password
         
         
         try {
